@@ -6,7 +6,7 @@
 /*   By: waihein <waihein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:39:47 by waihein           #+#    #+#             */
-/*   Updated: 2026/11/05 20:55:09 by waihein          ###   ########.fr       */
+/*   Updated: 2026/11/09 15:50:45 by waihein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,6 @@ int	append_stash(t_stash *stash, char *buffer, size_t bytes_read)
 	return (1);
 }
 
-int	has_newline(t_stash *stash)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < stash->len)
-	{
-		if (stash->data[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char	*extract_line(t_stash *stash)
 {
 	char	*line;
@@ -107,4 +93,22 @@ char	*extract_line(t_stash *stash)
 		i++;
 	}
 	line[line_len] = '\0';
+	update_stash(stash, line_len);
+	return (line);
+}
+
+void	update_stash(t_stash *stash, size_t line_len)
+{
+	size_t	i;
+	size_t	remaining;
+
+	i = 0;
+	remaining = stash->len - line_len;
+	while (i < remaining)
+	{
+		stash->data[i] = stash->data[line_len + i];
+		i++;
+	}
+	stash->data[i] = '\0';
+	stash->len = remaining;
 }
