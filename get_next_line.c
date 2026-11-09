@@ -6,7 +6,7 @@
 /*   By: waihein <waihein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 15:50:22 by waihein           #+#    #+#             */
-/*   Updated: 2026/11/09 15:51:18 by waihein          ###   ########.fr       */
+/*   Updated: 2026/11/09 19:19:59 by waihein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ char	*get_next_line(int fd)
 	if (!fill_stash(fd, &stash, buffer))
 		return (cleanup_stash(&stash, buffer));
 	if (stash.len == 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (cleanup_stash(&stash, buffer));
 	line = extract_line(&stash);
 	free(buffer);
 	return (line);
